@@ -1,12 +1,10 @@
 import React from 'react';
-import type { RowDefinition } from 'dnd-timeline';
+import { useGanttRow } from '../contexts';
 
-interface SidebarProps {
-  row: RowDefinition;
-}
+export const Sidebar = () => {
+  const row = useGanttRow();
 
-const Sidebar: React.FC<SidebarProps> = ({ row }) => {
+  if (!row) return null;
+
   return <div>{`Row ${row.id}`}</div>;
 };
-
-export default Sidebar;

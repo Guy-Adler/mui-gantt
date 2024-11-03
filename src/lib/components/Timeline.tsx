@@ -5,16 +5,23 @@ import {
   RowDefinition,
   useTimelineContext,
 } from 'dnd-timeline';
-import Row from './Row';
-import Sidebar from './Sidebar';
-import Item from './Item';
-
+import { Box, styled, SxProps } from '@mui/material';
+import { Row, Sidebar, Item } from '.';
 export interface TimelineProps {
   rows: RowDefinition[];
   items: ItemDefinition[];
+  sx?: SxProps;
 }
 
-const Timeline: React.FC<TimelineProps> = ({ rows, items }) => {
+const TimelineContainer = styled(Box, {
+  name: 'Timeline',
+  overridesResolver: (_, styles) => styles.root,
+})({
+  height: '100%',
+  width: '100%',
+});
+
+export const Timeline: React.FC<TimelineProps> = ({ rows, items, sx }) => {
   const { setTimelineRef, style, range } = useTimelineContext();
 
   const groupedRows = useMemo(
@@ -23,18 +30,16 @@ const Timeline: React.FC<TimelineProps> = ({ rows, items }) => {
   );
 
   return (
-    <div ref={setTimelineRef} style={style}>
+    <TimelineContainer ref={setTimelineRef} style={style} sx={sx}>
       {rows.map((row) => (
-        <Row id={row.id} key={row.id} sidebar={<Sidebar row={row} />}>
+        <Row row={row} key={row.id} sidebar={Sidebar}>
           {groupedRows[row.id]?.map((item) => (
-            <Item id={item.id} key={item.id} span={item.span}>
+            <Item item={item} key={item.id}>
               {`Item ${item.id}`}
             </Item>
           ))}
         </Row>
       ))}
-    </div>
+    </TimelineContainer>
   );
 };
-
-export default Timeline;

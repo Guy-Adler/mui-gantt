@@ -5,7 +5,7 @@ export interface UseGanttChartParams {
   defaultRange: Range;
 }
 
-const useGanttChart = ({ defaultRange }: UseGanttChartParams) => {
+export const useGanttChart = ({ defaultRange }: UseGanttChartParams) => {
   const [range, setRange] = useState(defaultRange);
   const onResizeEnd = useCallback(() => {}, []);
 
@@ -15,5 +15,3 @@ const useGanttChart = ({ defaultRange }: UseGanttChartParams) => {
     onResizeEnd,
   };
 };
-
-export default useGanttChart;

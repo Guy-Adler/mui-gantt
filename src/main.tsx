@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { endOfMonth, startOfMonth } from 'date-fns';
-import GanttChart from './lib/components/GanttChart';
+import './index.css';
+import { GanttChart } from './lib';
 import { generateItems, generateRows } from './utils';
 
 const DEFAULT_RANGE = {

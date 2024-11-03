@@ -1,16 +1,19 @@
 import React from 'react';
 import { Range, TimelineContext } from 'dnd-timeline';
-import Timeline, { TimelineProps } from './Timeline';
-import useGanttChart from '../hooks/useGanttChart';
+import { Timeline, TimelineProps } from '.';
+import { useGanttChart } from '../hooks';
+import { SxProps } from '@mui/material';
 
 export type GanttChartProps = Pick<TimelineProps, 'rows' | 'items'> & {
   defaultRange: Range;
+  sx?: SxProps;
 };
 
-const GanttChart: React.FC<GanttChartProps> = ({
+export const GanttChart: React.FC<GanttChartProps> = ({
   defaultRange,
   rows,
   items,
+  sx = {},
 }) => {
   const { range, setRange, onResizeEnd } = useGanttChart({
     defaultRange,
@@ -22,9 +25,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
       onRangeChanged={setRange}
       onResizeEnd={onResizeEnd}
     >
-      <Timeline rows={rows} items={items} />
+      <Timeline rows={rows} items={items} sx={sx} />
     </TimelineContext>
   );
 };
-
-export default GanttChart;
