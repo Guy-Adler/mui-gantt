@@ -12,6 +12,7 @@ const Item = ({ id, span, children }: ItemProps) => {
     useItem({
       id: id,
       span: span,
+      disabled: true,
     });
 
   return (

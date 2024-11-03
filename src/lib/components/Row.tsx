@@ -1,19 +1,19 @@
 import React from 'react';
 import { RowDefinition, useRow } from 'dnd-timeline';
 
-interface RowProps extends RowDefinition {
+interface RowProps extends Omit<RowDefinition, 'disabled'> {
   children: React.ReactNode;
   sidebar: React.ReactNode;
 }
 
-const Row = ({ id, children, sidebar, disabled }: RowProps) => {
+const Row = ({ id, children, sidebar }: RowProps) => {
   const {
     setNodeRef,
     setSidebarRef,
     rowWrapperStyle,
     rowStyle,
     rowSidebarStyle,
-  } = useRow({ id, disabled });
+  } = useRow({ id, disabled: true });
 
   return (
     <div style={rowWrapperStyle}>
