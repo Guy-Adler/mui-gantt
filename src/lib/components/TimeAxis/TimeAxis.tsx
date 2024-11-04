@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTimelineContext } from 'dnd-timeline';
-import { GanttMarker } from '../../types';
 import { Box, Divider, Paper, styled } from '@mui/material';
+import { GanttMarker } from '../../types';
+import { CurrentTimeMarker } from './CurrentTimeMarker';
 
 export interface TimeAxisProps {
   markers: GanttMarker[];
@@ -23,6 +24,7 @@ export const TimeAxisClasses = {
   axis: `${PREFIX}-Axis`,
   label: `${PREFIX}-Label`,
   marker: `${PREFIX}-Marker`,
+  currentTimeMarker: `${PREFIX}-CurrentTime`,
 };
 
 const TimeAxisRoot = styled(Box, {
@@ -47,6 +49,9 @@ const TimeAxisRoot = styled(Box, {
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'flex-end',
+    },
+    [`& .${TimeAxisClasses.currentTimeMarker}`]: {
+      backgroundColor: 'red',
     },
   })
 );
@@ -119,6 +124,7 @@ export const TimeAxis = ({ markers }: TimeAxisProps) => {
 
   return (
     <TimeAxisRoot className={TimeAxisClasses.root}>
+      <CurrentTimeMarker />
       <Paper square elevation={0}>
         <Box
           className={TimeAxisClasses.axis}
