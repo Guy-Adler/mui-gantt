@@ -9,7 +9,8 @@ import { Box, styled, SxProps } from '@mui/material';
 import { Row, Sidebar, Item } from '.';
 import { TimeAxis, DEFAULT_MARKERS } from './TimeAxis';
 import { GanttMarker } from '../types';
-export interface TimelineProps {
+import { GanttToolbar, GanttToolbarProps } from './Toolbar';
+export interface TimelineProps extends GanttToolbarProps {
   rows: RowDefinition[];
   items: ItemDefinition[];
   sx?: SxProps;
@@ -29,6 +30,7 @@ export const Timeline: React.FC<TimelineProps> = ({
   items,
   sx,
   markers,
+  title,
 }) => {
   const { setTimelineRef, style, range } = useTimelineContext();
 
@@ -39,6 +41,7 @@ export const Timeline: React.FC<TimelineProps> = ({
 
   return (
     <TimelineContainer ref={setTimelineRef} style={style} sx={sx}>
+      <GanttToolbar title={title} />
       <TimeAxis markers={markers ?? DEFAULT_MARKERS} />
       {rows.map((row) => (
         <Row row={row} key={row.id} sidebar={Sidebar}>

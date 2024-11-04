@@ -1,10 +1,13 @@
-import React from 'react';
-import { TimelineContext } from 'dnd-timeline';
-import { Timeline, TimelineProps } from '.';
-import { useGanttChart, UseGanttChartParams } from '../hooks';
+import React, { useMemo } from 'react';
 import { SxProps } from '@mui/material';
+import { TimelineContext } from 'dnd-timeline';
+import { useGanttChart, UseGanttChartParams } from '../hooks';
+import { GanttChartContext } from '../contexts';
+import { Timeline, TimelineProps } from '.';
+import { GanttToolbarProps } from './Toolbar';
 
 export type GanttChartProps = Pick<TimelineProps, 'rows' | 'items'> &
+  Partial<Pick<GanttToolbarProps, 'title'>> &
   UseGanttChartParams & {
     sx?: SxProps;
   };
@@ -18,6 +21,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
   rows,
   items,
   sx = {},
+  title,
 }) => {
   const { range, onRangeChanged, onResizeEnd } = useGanttChart({
     defaultRange,
@@ -27,13 +31,17 @@ export const GanttChart: React.FC<GanttChartProps> = ({
     maxTime,
   });
 
+  const zoom = useMemo(() => range.end - range.start, [range]);
+
   return (
     <TimelineContext
       range={range}
       onRangeChanged={onRangeChanged}
       onResizeEnd={onResizeEnd}
     >
-      <Timeline rows={rows} items={items} sx={sx} />
+      <GanttChartContext.Provider value={{ changeRange: onRangeChanged, zoom }}>
+        <Timeline rows={rows} items={items} sx={sx} title={title} />
+      </GanttChartContext.Provider>
     </TimelineContext>
   );
 };
