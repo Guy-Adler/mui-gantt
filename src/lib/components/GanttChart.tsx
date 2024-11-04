@@ -13,6 +13,8 @@ export const GanttChart: React.FC<GanttChartProps> = ({
   defaultRange,
   minZoom,
   maxZoom,
+  minTime,
+  maxTime,
   rows,
   items,
   sx = {},
@@ -21,6 +23,8 @@ export const GanttChart: React.FC<GanttChartProps> = ({
     defaultRange,
     minZoom,
     maxZoom,
+    minTime,
+    maxTime,
   });
 
   return (

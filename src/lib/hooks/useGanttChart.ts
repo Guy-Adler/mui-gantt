@@ -7,12 +7,18 @@ export interface UseGanttChartParams {
   minZoom?: number;
   /** Maximum range length (end-start) in ms */
   maxZoom?: number;
+  /** Minimum time (start) in ms */
+  minTime?: number;
+  /** Maximum time (start) in ms */
+  maxTime?: number;
 }
 
 export const useGanttChart = ({
   defaultRange,
-  maxZoom = Infinity,
   minZoom = -Infinity,
+  maxZoom = Infinity,
+  minTime = -Infinity,
+  maxTime = Infinity,
 }: UseGanttChartParams): TimelineContextProps => {
   const [range, setRange] = useState(defaultRange);
   const onResizeEnd = useCallback(() => {}, []);
@@ -23,7 +29,17 @@ export const useGanttChart = ({
       setRange((prev) => {
         const range = updateFunction(prev);
         const zoom = range.end - range.start;
-        return zoom > minZoom && zoom < maxZoom ? range : prev;
+
+        if (
+          zoom >= minZoom &&
+          zoom <= maxZoom &&
+          range.start >= minTime &&
+          range.end <= maxTime
+        ) {
+          return range;
+        } else {
+          return prev;
+        }
       });
     },
     [setRange, maxZoom, minZoom]
