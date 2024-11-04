@@ -5,6 +5,7 @@ import { useGanttChart, UseGanttChartParams } from '../hooks';
 import { GanttChartContext } from '../contexts';
 import { Timeline, TimelineProps } from '.';
 import { GanttToolbarProps } from './Toolbar';
+import { usePanStrategy } from '../hooks/usePanStrategy';
 
 export type GanttChartProps = Pick<TimelineProps, 'rows' | 'items'> &
   Partial<Pick<GanttToolbarProps, 'title'>> &
@@ -38,6 +39,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
       range={range}
       onRangeChanged={onRangeChanged}
       onResizeEnd={onResizeEnd}
+      usePanStrategy={usePanStrategy}
     >
       <GanttChartContext.Provider value={{ changeRange: onRangeChanged, zoom }}>
         <Timeline rows={rows} items={items} sx={sx} title={title} />

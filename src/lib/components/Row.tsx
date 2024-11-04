@@ -22,6 +22,7 @@ const RowWrapper = styled(Box, {
   overridesResolver: (_, styles) => styles.root,
 })({
   [`&.${RowClasses.root}`]: {
+    minHeight: '100px',
     flexGrow: 1,
   },
   [`& .${RowClasses.sidebar}`]: {
