@@ -8,11 +8,12 @@ import {
 import { Box, styled, SxProps } from '@mui/material';
 import { Row, Sidebar, Item } from '.';
 import { TimeAxis, DEFAULT_MARKERS } from './TimeAxis';
-import { hoursToMilliseconds } from 'date-fns';
+import { GanttMarker } from '../types';
 export interface TimelineProps {
   rows: RowDefinition[];
   items: ItemDefinition[];
   sx?: SxProps;
+  markers?: GanttMarker[];
 }
 
 const TimelineContainer = styled(Box, {
@@ -23,7 +24,12 @@ const TimelineContainer = styled(Box, {
   width: '100%',
 });
 
-export const Timeline: React.FC<TimelineProps> = ({ rows, items, sx }) => {
+export const Timeline: React.FC<TimelineProps> = ({
+  rows,
+  items,
+  sx,
+  markers,
+}) => {
   const { setTimelineRef, style, range } = useTimelineContext();
 
   const groupedRows = useMemo(
@@ -33,51 +39,7 @@ export const Timeline: React.FC<TimelineProps> = ({ rows, items, sx }) => {
 
   return (
     <TimelineContainer ref={setTimelineRef} style={style} sx={sx}>
-      <TimeAxis
-        markers={[
-          {
-            delta: hoursToMilliseconds(24),
-            shouldPlaceMarker: () => true,
-            minRangeSize: hoursToMilliseconds(24),
-            maxRangeSize: hoursToMilliseconds(24) * 30,
-            getLabel: (time) => (
-              <div>
-                {new Date(time).getDate() === 1 &&
-                  new Date(time).getMonth() === 0 && (
-                    <>
-                      <i>
-                        <em>
-                          {new Date(time).toLocaleDateString(
-                            new Intl.Locale('en-GB'),
-                            {
-                              year: 'numeric',
-                            }
-                          )}
-                        </em>
-                      </i>
-                      <br />
-                    </>
-                  )}
-                {new Date(time).getDate() === 1 && (
-                  <>
-                    <i>
-                      {new Date(time).toLocaleDateString(
-                        new Intl.Locale('en-GB'),
-                        {
-                          month: 'long',
-                        }
-                      )}
-                    </i>
-                    <br />
-                  </>
-                )}
-                {new Date(time).getDate()}
-              </div>
-            ),
-          },
-        ]}
-        markers={DEFAULT_MARKERS}
-      />
+      <TimeAxis markers={markers ?? DEFAULT_MARKERS} />
       {rows.map((row) => (
         <Row row={row} key={row.id} sidebar={Sidebar}>
           {groupedRows[row.id]?.map((item) => (
