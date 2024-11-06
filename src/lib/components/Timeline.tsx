@@ -5,7 +5,7 @@ import {
   RowDefinition,
   useTimelineContext,
 } from 'dnd-timeline';
-import { Box, styled, SxProps } from '@mui/material';
+import { Box, Divider, styled, SxProps } from '@mui/material';
 import { Row, Sidebar, Item } from '.';
 import { TimeAxis, DEFAULT_MARKERS } from './TimeAxis';
 import { GanttMarker } from '../types';
@@ -35,6 +35,7 @@ const TimelineContainer = styled(Box, {
     display: 'flex',
     flexDirection: 'column',
     overflowY: 'auto',
+    height: '100%',
   },
 });
 
@@ -63,13 +64,16 @@ export const Timeline: React.FC<TimelineProps> = ({
       <TimeAxis markers={markers ?? DEFAULT_MARKERS} />
       <Box className={TimelineClasses.rowsContainer}>
         {rows.map((row) => (
-          <Row row={row} key={row.id} sidebar={Sidebar}>
-            {groupedRows[row.id]?.map((item) => (
-              <Item item={item} key={item.id}>
-                {`Item ${item.id}`}
-              </Item>
-            ))}
-          </Row>
+          <React.Fragment key={row.id}>
+            <Row row={row} sidebar={Sidebar}>
+              {groupedRows[row.id]?.map((item) => (
+                <Item item={item} key={item.id}>
+                  {`Item ${item.id}`}
+                </Item>
+              ))}
+            </Row>
+            <Divider orientation="horizontal" />
+          </React.Fragment>
         ))}
       </Box>
     </TimelineContainer>

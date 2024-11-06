@@ -49,13 +49,18 @@ export const Row = <Row extends GanttRow>({
         <Paper
           className={RowClasses.sidebar}
           square
-          elevation={3}
+          elevation={0}
           ref={setSidebarRef}
           style={rowSidebarStyle}
         >
           <Sidebar />
         </Paper>
-        <Paper className={RowClasses.content} ref={setNodeRef} style={rowStyle}>
+        <Paper
+          elevation={0}
+          className={RowClasses.content}
+          ref={setNodeRef}
+          style={rowStyle}
+        >
           {children}
         </Paper>
       </RowWrapper>
