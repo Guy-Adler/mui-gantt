@@ -46,9 +46,6 @@ const CurrentTimeMarker = React.memo(function CurrentTimeMarker() {
         TimeAxisClasses.currentTimeMarker,
         TimeAxisClasses.marker,
       ].join(' ')}
-      sx={{
-        [`m${side.charAt(0)}`]: `${sidebarWidth}px`,
-      }}
     />
   );
 });
