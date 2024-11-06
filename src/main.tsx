@@ -4,6 +4,7 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 import './index.css';
 import { GanttChart } from './lib';
 import { millisecondsInDay } from 'date-fns/constants';
+import { generateRows } from './utils';
 
 const DEFAULT_RANGE = {
   start: startOfMonth(new Date()).getTime(),
@@ -13,12 +14,14 @@ const ONE_DAY = millisecondsInDay;
 const THREE_MONTHS = millisecondsInDay * 30 * 3;
 
 const App = () => {
+  const rows = generateRows(50);
+
   return (
     <GanttChart
       defaultRange={DEFAULT_RANGE}
       minZoom={ONE_DAY}
       maxZoom={THREE_MONTHS}
-      rows={[]}
+      rows={rows}
       items={[]}
     />
   );

@@ -32,6 +32,7 @@ const TimeAxisRoot = styled(Box, {
   overridesResolver: (_, styles) => styles.root,
 })(({ theme }) =>
   theme.unstable_sx({
+    [`&.${TimeAxisClasses.root}`]: {},
     [`& .${TimeAxisClasses.axis}`]: {
       display: 'flex',
       position: 'relative',

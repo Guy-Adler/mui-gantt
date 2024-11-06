@@ -17,12 +17,25 @@ export interface TimelineProps extends GanttToolbarProps {
   markers?: GanttMarker[];
 }
 
+const PREFIX = 'Timeline';
+export const TimelineClasses = {
+  root: `${PREFIX}-Root`,
+  rowsContainer: `${PREFIX}-RowsContainer`,
+};
+
 const TimelineContainer = styled(Box, {
   name: 'Timeline',
   overridesResolver: (_, styles) => styles.root,
 })({
-  height: '100%',
-  width: '100%',
+  [`&.${TimelineClasses.root}`]: {
+    height: '100%',
+    width: '100%',
+  },
+  [`& .${TimelineClasses.rowsContainer}`]: {
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'auto',
+  },
 });
 
 export const Timeline: React.FC<TimelineProps> = ({
@@ -40,18 +53,25 @@ export const Timeline: React.FC<TimelineProps> = ({
   );
 
   return (
-    <TimelineContainer ref={setTimelineRef} style={style} sx={sx}>
+    <TimelineContainer
+      className={TimelineClasses.root}
+      ref={setTimelineRef}
+      style={style}
+      sx={sx}
+    >
       <GanttToolbar title={title} />
       <TimeAxis markers={markers ?? DEFAULT_MARKERS} />
-      {rows.map((row) => (
-        <Row row={row} key={row.id} sidebar={Sidebar}>
-          {groupedRows[row.id]?.map((item) => (
-            <Item item={item} key={item.id}>
-              {`Item ${item.id}`}
-            </Item>
-          ))}
-        </Row>
-      ))}
+      <Box className={TimelineClasses.rowsContainer}>
+        {rows.map((row) => (
+          <Row row={row} key={row.id} sidebar={Sidebar}>
+            {groupedRows[row.id]?.map((item) => (
+              <Item item={item} key={item.id}>
+                {`Item ${item.id}`}
+              </Item>
+            ))}
+          </Row>
+        ))}
+      </Box>
     </TimelineContainer>
   );
 };
